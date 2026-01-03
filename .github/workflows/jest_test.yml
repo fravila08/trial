@@ -1,11 +1,29 @@
-name: Hello World Workflow
+name: Run Test Suite
 
 on:
   push:
+    branches:
+      - dev
+
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  say-hello:
+  test:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Print a message
-        run: echo "Hello from GitHub Actions!"
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
